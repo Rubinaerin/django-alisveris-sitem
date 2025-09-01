@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Profilim
+{% endblock %}
+
+{% block content %}
+    <div class="profile-container">
+        <h1>Merhaba, {{ user.username }}</h1>
+
+        <div class="profile-section">
+            <h2>Adres ve İletişim Bilgileriniz</h2>
+            {% if user.profile %}
+                <div class="info-box">
+                    <p><strong>Adı Soyadı:</strong> {{ user.profile.full_name }}</p>
+                    <p><strong>Adres:</strong> {{ user.profile.address }}</p>
+                    <p><strong>Şehir:</strong> {{ user.profile.city }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </div>
+            {% else %}
+                <p>Profil bilgileriniz bulunamadı.</p>
+            {% endif %}
+        </div>
+
+        <div class="profile-section">
+    <h2>Sipariş Geçmişiniz</h2>
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-box">
+                <div class="order-header">
+                    <h3>Sipariş Numarası: {{ order.id }}</h3>
+                    <p>Tarih: {{ order.created_at|date:"F d, Y, h:i a" }}</p>
+                </div>
+                <div class="order-body">
+                    <p><strong>Toplam Tutar:</strong> {{ order.get_total_cost }} TL</p>
+                    <ul>
+                        {% for item in order.items.all %}
+                            <li>
+                                <div class="order-item-detail">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="order-item-image">
+                                    {% endif %}
+                                    <span>{{ item.product.name }} - {{ item.quantity }} adet</span>
+                                </div>
+                                <span class="order-item-price">{{ item.get_cost }} TL</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Henüz bir siparişiniz bulunmuyor.</p>
+    {% endif %}
+</div>
+    </div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Sepetim
+{% endblock %}
+
+{% block content %}
+    <h1>Alışveriş Sepetim</h1>
+
+    {% if cart.items.all %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Ürün</th>
+                <th>Fiyat</th>
+                <th>Adet</th>
+                <th>Toplam</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.items.all %}
+            <tr>
+                <td>
+                    <div class="cart-item">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 100px; height: auto;">
+                        {% endif %}
+                        <a href="{% url 'products:product_detail' pk=item.product.pk %}">{{ item.product.name }}</a>
+                    </div>
+                </td>
+                <td>{{ item.product.price }} TL</td>
+                <td>
+                    <form action="{% url 'cart:update_cart' product_id=item.product.pk %}" method="post" style="display: inline-block;">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                        <button type="submit">Güncelle</button>
+                    </form>
+                </td>
+                <td>{{ item.get_total_price }} TL</td>
+                <td>
+                    <a href="{% url 'cart:remove_from_cart' pk=item.product.pk %}">Sil</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="cart-summary">
+        <h3>Genel Toplam: {{ cart.get_total_cost }} TL</h3>
+    </div>
+
+    <a href="{% url 'products:product_list' %}" class="btn btn-secondary continue-shopping-btn">Alışverişe Devam Et</a>
+    <a href="{% url 'orders:order_checkout' %}" class="btn btn-success">Siparişi Tamamla</a>
+    {% else %}
+        <p>Sepetinizde henüz ürün bulunmuyor.</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sipariş Detayı{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card p-4 shadow-sm">
+                <h1 class="card-title text-center mb-4">Siparişiniz</h1>
+
+                <div class="order-details-summary mb-4">
+                    <p><strong>Sipariş Numarası:</strong> {{ order.pk }}</p>
+                    <p><strong>Sipariş Tarihi:</strong> {{ order.created_at|date:"d M Y H:i" }}</p>
+                </div>
+                
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Miktar</th>
+                            <th>Birim Fiyat</th>
+                            <th>Toplam</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td class="d-flex align-items-center">
+    {% if item.product.image %}
+        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="order-item-image me-3">
+    {% endif %}
+    <a href="{% url 'products:product_detail' item.product.pk %}" class="text-decoration-none text-dark">
+        {{ item.product.name }}
+    </a>
+</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.price|floatformat:2 }} TL</td>
+                            <td>{{ item.get_total_price|floatformat:2 }} TL</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Genel Toplam:</strong></td>
+                            <td class="fw-bold">{{ order.get_total_cost|floatformat:2 }} TL</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <a href="{% url 'products:product_list' %}" class="btn btn-primary mt-4 d-block">Alışverişe Devam Et</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Kayıt Ol
+{% endblock %}
+
+{% block content %}
+    <div class="auth-container">
+        <h1>Kayıt Ol</h1>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="form-help-text">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="error-message">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+        </form>
+        <p class="auth-link">Zaten bir hesabınız var mı? <a href="{% url 'users:login' %}">Giriş Yap</a></p>
+    </div>
+{% endblock %}

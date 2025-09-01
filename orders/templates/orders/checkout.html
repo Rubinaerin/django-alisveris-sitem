@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Sipariş Önizleme{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Sipariş Önizleme</h1>
+    <p>Aşağıdaki siparişi onaylıyor musunuz?</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ürün</th>
+                <th>Adet</th>
+                <th>Fiyat</th>
+                <th>Toplam</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart.items.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price|floatformat:2 }} TL</td>
+                <td>{{ item.get_total_price|floatformat:2 }} TL</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Genel Toplam:</strong></td>
+        <td><strong>{{ cart.get_total_cost|floatformat:2 }} TL</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <form action="{% url 'orders:create_order' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Onayla ve Öde</button>
+    </form>
+    <a href="{% url 'cart:cart_detail' %}" class="btn btn-secondary mt-3">Sepete Geri Dön</a>
+</div>
+{% endblock %}

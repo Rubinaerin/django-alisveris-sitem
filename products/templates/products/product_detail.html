@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }} Detayları
+{% endblock %}
+
+{% block content %}
+    <div class="product-container">
+        <h1>{{ product.name }}</h1>
+        {% if product.image %}
+           <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 400px; height: auto;">
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <p class="price">Fiyat: {{ product.price }} TL</p>
+        <p>Stok: {{ product.stock }} adet</p>
+        
+        <form action="{% url 'cart:add_to_cart' product_id=product.id %}" method="post">
+    {% csrf_token %}
+    <label for="quantity">Adet:</label>
+    <input type="number" id="quantity" name="quantity" value="1" min="1">
+    <button type="submit">Sepete Ekle</button>
+        </form>
+    </div>
+    <a href="{% url 'products:product_list' %}">Tüm Ürünlere Dön</a>
+{% endblock %}

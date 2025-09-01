@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ürün Listesi
+{% endblock %}
+
+{% block content %}
+   <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-center w-100" style="color: #f1bfea; font-weight: 600;">Tüm Ürünlerimiz</h1>
+    <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Sırala
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'products:product_list' %}?sort=price_asc">Fiyat (Artan)</a></li>
+            <li><a class="dropdown-item" href="{% url 'products:product_list' %}?sort=price_desc">Fiyat (Azalan)</a></li>
+        </ul>
+    </div>
+</div>
+        <div class="category-menu">
+            <a href="{% url 'products:product_list' %}" class="{% if not category %}active{% endif %}">Tümü</a>
+            {% for cat in categories %}
+                <a href="{% url 'products:product_list_by_category' category_slug=cat.slug %}" class="{% if category.slug == cat.slug %}active{% endif %}">{{ cat.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="products-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <a href="{% url 'products:product_detail' product.pk %}">
+                    <div class="product-image-container">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                </a>
+                <div class="product-info">
+                    <h2><a href="{% url 'products:product_detail' product.pk %}">{{ product.name }}</a></h2>
+                    <p>{{ product.description }}</p>
+                    <p class="price">{{ product.price }} TL</p>
+                    <p>Stok: {{ product.stock }} adet</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>Bu kategoride ürün bulunmamaktadır.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

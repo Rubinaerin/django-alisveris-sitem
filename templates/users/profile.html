@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Profilim{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Hoş Geldiniz, {{ user.username }}!</h1>
+    <p>Burası sizin kişisel profil sayfanız.</p>
+    
+    <hr>
+    
+    <h2>Sipariş Geçmişi</h2>
+    {% if user_orders %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sipariş No</th>
+                    <th>Tarih</th>
+                    <th>Toplam Fiyat</th>
+                    <th>Ürünler</th> <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in user_orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created|date:"d M Y" }}</td>
+                        <td>{{ order.get_total_cost }} TL</td>
+                        <td>
+                            {% for item in order.items.all %}
+                                <div class="order-item-detail">
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 50px; height: 50px; margin-right: 10px;">
+                                    <p>{{ item.product.name }} ({{ item.price }} TL x {{ item.quantity }})</p>
+                                </div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-info btn-sm">Detaylar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Henüz bir siparişiniz bulunmamaktadır.</p>
+    {% endif %}
+
+</div>
+{% endblock %}
