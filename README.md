@@ -24,7 +24,7 @@ Projenin temel görünümleri aşağıdadır.
 
 **Ürün Sayfası (Filtreleme ve Sıralama)**
 
-![Ürün Sayfası](https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.19.41.png)(https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.19.24.png)
+![Ürün Sayfası](https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.19.41.png)![Ürün Sayfası](https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.19.24.png)
 
 **Sepet ve Sipariş Onayı**
 
