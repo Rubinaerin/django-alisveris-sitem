@@ -28,7 +28,7 @@ Projenin temel görünümleri aşağıdadır.
 
 **Sepet ve Sipariş Onayı**
 
-![Sepet ve Ödeme](https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.21.14.png)(https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.21.00.png)
+![Sepet ve Ödeme](https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.21.14.png)![Sepet ve Ödeme](https://github.com/Rubinaerin/django-alisveris-sitem/blob/main/Ekran%20Resmi%202025-09-01%2017.21.00.png)
 
 **Profil ve Sipariş Geçmişi**
 
